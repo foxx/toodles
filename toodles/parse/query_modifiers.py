@@ -1,6 +1,17 @@
 """."""
 from decimal import Decimal, InvalidOperation
 
+__all__ = [
+    'BetweenModifier',
+    'GreaterThenModifier',
+    'GreaterOrEqualModifier',
+    'LessThenModifier',
+    'LessOrEqualModifier',
+    'InModifier',
+    'ExactModifier',
+    'ContainsModifier'
+]
+
 
 # FIXME: ban from instantiating this class
 class QueryModifier(object):
@@ -38,7 +49,7 @@ class QueryModifier(object):
             errmsg %= (''.join(value), stripped_values_len, str(self.arity))
             raise Exception(errmsg)
 
-        parsed = [self.name]
+        parsed = []
         for val in stripped_values:
             if not val:
                 raise Exception('Malformed query value: %s' % stripped_values)
@@ -57,7 +68,7 @@ class QueryModifier(object):
 
             parsed.append(coercd_val)
 
-        return parsed
+        return (self.name, parsed)
 
 
 class BetweenModifier(QueryModifier):
@@ -116,7 +127,7 @@ class ExactModifier(QueryModifier):
     vtype = any
 
 
-class Contains(QueryModifier):
+class ContainsModifier(QueryModifier):
     """."""
 
     name = 'contains'

@@ -1,4 +1,7 @@
 """."""
+from toodles.parse.query_modifiers import *
+
+__all__ = ['SortNameSpace', 'FilterNameSpace']
 
 
 # FIXME: ban from instantiating this class
@@ -8,6 +11,10 @@ class QueryNameSpace(object):
     name = ''
     key_separator = '.'
     mod_separator = ':'
+
+    def __init__(self, max_key_tokens=1):
+        """Initialization method."""
+        self.max_key_tokens = max_key_tokens
 
     def parse_key(self, key_str):
         """Parse namespace key."""
@@ -21,6 +28,12 @@ class QueryNameSpace(object):
 
         return tokens
 
+    def parse_value(self, value_str):
+        """Parse namespace value."""
+        pass
+        # FIXME: get right modifier class without iteration
+        #        (approach as in query_string_parser.py doesn't work)
+
 
 class FilterNameSpace(QueryNameSpace):
     """."""
@@ -28,22 +41,25 @@ class FilterNameSpace(QueryNameSpace):
     name = 'filter'
     key_separator = '.'
     mod_separator = ':'
+    modifiers = [
+        BetweenModifier,
+        GreaterThenModifier,
+        GreaterOrEqualModifier,
+        LessThenModifier,
+        LessOrEqualModifier,
+        InModifier,
+        ExactModifier,
+        ContainsModifier
+    ]
 
-    def __init__(self, max_key_tokens=1):
-        """Initialization method."""
-        self.max_key_tokens = max_key_tokens
-
+    # NOTE: can be moved to a parent class depending on whether other
+    #       namespaces can be fit into the same framework
     def parse(self, query):
         """."""
-        parsed = []
-        parsed.append(self.parse_key(query[0]))
-        # TODO: parse value
+        return (self.parse_key(query[0]), self.parse_value(query[1]))
 
 
 class SortNameSpace(QueryNameSpace):
     """."""
 
     name = 'sort'
-
-
-namespaces = [SortNameSpace, FilterNameSpace]
