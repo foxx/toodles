@@ -10,7 +10,7 @@ freezegun = "*"
 
 [dev-packages]
 pytest = '*'
-pytest-flask = '*'
+#pytest-flask = '*'
 pytest-cov = '*'
 webtest = '*'
 faker = '*'

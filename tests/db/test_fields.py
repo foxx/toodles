@@ -1,5 +1,7 @@
 import peewee
 import datetime
+
+from freezegun import freeze_time
 from toodles.db import (Model, DatabaseManager, TimestampModelMixin)
 
 

@@ -10,12 +10,13 @@ from pprint import pprint
 from tabulate import tabulate
 from toodles.db import PrimaryKeyPagination
 
+from .conftest import Person
 
 ####################################################################
 # Test CRUD
 ####################################################################
 
-
+'''
 class TestPrimaryKeyPagination:
     
     def generate(self, *args, **kwargs):
@@ -81,5 +82,5 @@ class TestPrimaryKeyPagination:
         assert results == expected
 
         #print(tabulate(results, headers="keys")); assert False
-
+'''
 

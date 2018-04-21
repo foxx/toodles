@@ -17,6 +17,7 @@ def test_form_parser(app):
     Unit test for form parser
     XXX: needs test for invalid form data
     """
+    raise NotImplementedError()
 
     @app.route
     class ExampleView(View):

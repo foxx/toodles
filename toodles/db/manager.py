@@ -37,8 +37,8 @@ class ModelManager(list):
         return model_cls
 
     def deregister_all(self):
-        for key, value in self.items():
-            value._meta.database_manager = None
+        for model_cls in self:
+            delattr(model_cls._meta, 'database_manager')
         self.clear()
 
 

@@ -2,8 +2,10 @@ import os
 import pytest
 import peewee
 
+from faker import Faker
 from toodles.db import Model, DatabaseManager
 from .utils import ResultStore
+
 
 ###############################################################################
 # Helpers
@@ -30,12 +32,21 @@ def dbm():
     dbm.register('default', 'sqlite:///:memory:')
     dbm.register('other', 'sqlite:///:memory:')
 
+    # de-register all models from previous tests
+    # TODO: yucky, needs improvemnet
+    for model in [Person, CompoundPerson]:
+        if hasattr(model._meta, 'database_manager'):
+            delattr(model._meta, 'database_manager')
+
     # register models
     dbm.models.register(Person)
     dbm.models.register(CompoundPerson)
+    dbm.connect()
+
+    # destroy all previous data (why the fuck is this even needed)
+    dbm.models.destroy_tables()
 
     # initialize all tables
-    dbm.connect()
     dbm.models.create_tables()
 
     # generate fake data for all tables
@@ -45,10 +56,7 @@ def dbm():
 
     # handle setup/teardown
     yield dbm
-    dbm.disconnect()
-
-    # remove all models from this manager
-    dbm.models.deregister_all()
+    #dbm.disconnect()
 
 
 ###############################################################################
@@ -56,8 +64,8 @@ def dbm():
 ###############################################################################
 
 class Person(Model):
-    name = peewee.TextField(null=False)
-    city = peewee.TextField(null=False)
+    name = peewee.TextField(null=False, unique=True)
+    city = peewee.TextField(null=True)
 
     @classmethod
     def generate_test_data(self):
@@ -71,8 +79,10 @@ class Person(Model):
         for x in range(100):
             city = cities[x % len(cities)]
             items += [dict(name=fake.name(), city=city)]
-        Person.insert_many(items).execute()
-        assert Person.select().count() == 100
+
+        with Person._meta.database.atomic():
+            Person.insert_many(items).execute()
+            assert Person.select().count() == 100
 
 
 class CompoundPerson(Model):
@@ -80,7 +90,7 @@ class CompoundPerson(Model):
     last_name = peewee.CharField()
     
     class Meta:
-        primary_key = peewee.CompositeKey("field1", "field2")
+        primary_key = peewee.CompositeKey('first_name', 'last_name')
 
     @classmethod
     def generate_test_data(self):
@@ -90,10 +100,12 @@ class CompoundPerson(Model):
 
         items = []
         for x in range(100):
-            fn, ln = faker.Faker().name().split(' ', 1)
+            fn, ln = fake.name().split(' ', 1)
             items += [dict(first_name=fn, last_name=ln)]
-        CompoundPerson.insert_many(items).execute()
-        assert CompoundPerson.select().count() == 100
+
+        with CompoundPerson._meta.database.atomic():
+            CompoundPerson.insert_many(items).execute()
+            assert CompoundPerson.select().count() == 100
 
 
 
