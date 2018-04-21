@@ -1,5 +1,4 @@
-from bottlecap.negotiation import ContentNegotiation
-from helpful import ClassDict
+#from .content_negotiation import ContentNegotiation
 
 __all__ = ['View']
 

@@ -3,9 +3,10 @@ import pytest
 from copy import copy
 from random import Random
 from decimal import Decimal
-from bottlecap.negotiation import *
-from bottlecap.mediatype import *
+from toodles.web.content_negotiation import *
+from toodles.web.mediatype import *
 
+# TODO: should this be a fixture?
 random = Random()
 random.seed(0)
 

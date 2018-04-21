@@ -5,7 +5,6 @@ from toodles import Toodles
 from toodles.db import Model
 from toodles.web import View
 
-
 ###############################################################################
 # Base application
 ###############################################################################
@@ -55,25 +54,15 @@ class ListView(View):
     # query string field to use for sorting
     qs_sort_key = 'sort'
 
-    def get_request_filter(self):
-        """
-        Returns filter parameters from request query string
-
-        # allow all filters
-        filter_fields = ['field1', 'field2']
-
-        ?filter[field1]=lalal&filter[field2.gt]=36
-
-        For example:
-        ?filter[field1][gt]=lalala&
-         filter[field2][gte]
-        """
-
     def convert_sort_string(self):
         """
         Convert sort string to sorting pairs
+        
+        TODO: is there a better syntax? 
+        e.g. `?sort=field1,asc:field2,desc:field3`
 
-        >>> convert_sort_string('field1,+field2,-field3')
+        Example: (This docstring test breaks, nfi why)
+        convert_sort_string('field1,+field2,-field3')
         [('field1', 'desc'), ('field2', 'asc'), ('field3', 'desc')]
         """
 
@@ -104,48 +93,6 @@ class ListView(View):
 
         # convert filter parameters from query string
 
-    def convert_filter_string(self, value):
-        """
-        ?filter[field1]=a&filter[field2.gte]=83
-        ?filter=field1>lalala,field2>=55
-        ?filter[field1]=blah&filter[field2]=gte(1)
-
-        ?filter.field1.gte=123&filter.field2=hello
-        ?filter[field1][gte]=123&filter[field2]=hello
-        ?filter[field1.gte]=123&filter[field2]hello
-        ?filter.field1>=123&filter.field2=hello&filter.field3>66
-        
-        ?filter.field1.gte=123&filter.field2=hello&filter.field3.lte=123
-
-        https://api.roak.io/people?filter.country=gb
-        https://api.roak.io/people?filter.country=gb&filter.lang=en&filter.gender=female&filter.name.contains=kitty
-        https://api.roak.io/people?filter.country=gb&filter.gender=female,male&filter.age=21,40
-
-        ?filter.age.gte=23
-        ?filter.age=gte(23)
-
-        ?filter.age.between=21,40
-        ?filter.age=between(21,40)
-
-        ?filter.name=contains(hello)
-        ?filter.name.contains=hello
-
-        https://api.roak.io/people?filter.name.contains=mary
-        https://api.roak.io/people?filter.name=contains(mary)
-        https://api.roak.io/people?name=mary
-
-        ?filter.name=contains:mary
-        ?filter.name=in:mary,alex,jessica&filter.age=between:21,40&filter.country=in:uk,us,es
-        ?filter.age=between:21,40
-        ?filter.age=gte:21
-        ?filter.age=lt:21
-        ?filter.age=40
-
-        Supported modifiers: lt,lte,gt,gte,contains,exact,in
-        (if no modifier provided, default to 'contains')
-
-        """
-
 
     def get_request_sort(self):
         """
@@ -156,7 +103,8 @@ class ListView(View):
         return self.convert_sort_string(values)
 
         '''
-    def get_request_sort(self):
+
+def get_request_sort(self):
         """
         Returns sorting parameters from request query string
 

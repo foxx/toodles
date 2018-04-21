@@ -17,3 +17,9 @@ Toodles supports the following features out of the box;
 * Access controls (TBD)
 * Database management
 * CLI
+
+TODOs;
+
+* Add Travis CI support
+* Replace all instances of `ensure_instance` with type hinting instead
+* Add Sphinx Doc support

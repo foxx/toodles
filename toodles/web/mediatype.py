@@ -1,7 +1,11 @@
 from decimal import Decimal
-from helpful import ensure_instance, padded_split, makelist
 from collections import OrderedDict
 from copy import copy
+
+# TODO: Replace ensure_instance with type hinting
+# TODO: Replace padded_split with pad()
+# TODO: Do we need makelist?
+from toodles.utils import ensure_instance, padded_split, makelist
 
 __all__ = ['ParseError', 'MediaType', 'MediaTypeList', 'cast_media_type', 
            'cast_media_type_list']

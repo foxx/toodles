@@ -2,6 +2,9 @@ from functools import wraps
 from json import JSONDecoder, JSONEncoder
 from bottle import HTTPResponse, HTTPError, request
 
+# TODO: Do we really need metaclasses for this?
+from six import with_metaclass
+
 from .exceptions import *
 from .mediatype import *
 
@@ -322,12 +325,7 @@ class ContentNegotiationPlugin:
 
         return nresp
 
-
-class ContentNegotiationPlugin:
-    """
-    Plugin for Content Negotiation
-    """
-
+    '''
     def setup(self, app):
         # ensure this plugin isn't already installed
         for other in app.plugins:
@@ -337,4 +335,5 @@ class ContentNegotiationPlugin:
     def apply(self, callback, context):
         # do we have a renderer?
         return cneg(callback)
+    '''
 

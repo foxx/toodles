@@ -2,9 +2,9 @@ import pytest
 import bottle
 
 from bottle import request
-from bottlecap.negotiation import *
-from bottlecap.mediatype import *
-from bottlecap.views import View
+from toodles.web.content_negotiation import *
+from toodles.web.mediatype import *
+from toodles.web import View
 
 
 ###########################################################

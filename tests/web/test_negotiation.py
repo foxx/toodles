@@ -1,16 +1,14 @@
 import pytest
-from toodles.web import *
-from toodles.web import *
-from bottlecap.negotiation import *
-from bottlecap.mediatype import *
+from toodles.web.content_negotiation import *
+from toodles.web.mediatype import *
 
 ###########################################################
 # Content negotiation
 ###########################################################
 
-class TestContentNegotiation:
+class TestContentNegotiationPlugin:
     def test_guess_content_type(self):
-        cneg = ContentNegotiation()
+        cneg = ContentNegotiationPlugin()
 
         # TODO: is this correct?
         a = cneg.guess_content_type("hello")
@@ -20,30 +18,30 @@ class TestContentNegotiation:
         assert a == None
 
     def test_select_renderer_valid(self):
-        class CustomContentNegotiation(ContentNegotiation):
+        class CustomContentNegotiationPlugin(ContentNegotiationPlugin):
             renderers = [JSONRenderer]
 
-        cneg = CustomContentNegotiation()
+        cneg = CustomContentNegotiationPlugin()
         renderer, content_type = cneg.select_renderer('application/json')
         assert renderer == JSONRenderer
         assert content_type == 'application/json'
 
     def test_select_renderer_blank(self):
-        cneg = ContentNegotiation()
+        cneg = ContentNegotiationPlugin()
         renderer, content_type = cneg.select_renderer('application/json')
         assert renderer == None
         assert content_type == None
 
     def test_select_parser_valid(self):
-        class CustomContentNegotiation(ContentNegotiation):
+        class CustomContentNegotiationPlugin(ContentNegotiationPlugin):
             parsers = [JSONParser]
 
-        cneg = CustomContentNegotiation()
+        cneg = CustomContentNegotiationPlugin()
         parser = cneg.select_parser('application/json')
         assert parser == JSONParser
 
     def test_select_parser_blank(self):
-        cneg = ContentNegotiation()
+        cneg = ContentNegotiationPlugin()
         parser = cneg.select_parser('application/json')
         assert parser == None
 

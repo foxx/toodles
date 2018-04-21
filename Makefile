@@ -8,13 +8,13 @@ DOCKER_TAG := toodles:latest
 all:
 
 
-.PHONY: build
-build:
+.PHONY: dbuild
+dbuild:
 	docker build -t $(DOCKER_TAG) .
 
 
 .PHONY: shell
-shell: build
+dshell: dbuild
 	docker run \
 		--rm \
 		-it \
@@ -24,12 +24,16 @@ shell: build
 		/bin/bash -i
 
 
-.PHONY: test
-test: build
+.PHONY: dtest
+dtest: dbuild
 	docker run \
 		--rm \
 		-it \
 		-p 8080:8080 \
 		-v `pwd`:/toodles \
 		$(DOCKER_TAG) \
-		pipenv run python3 -m pytest
+		make test
+
+.PHONY: test
+test:
+	pipenv run python3 -m pytest

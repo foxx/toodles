@@ -1,5 +1,5 @@
 from bottle import request
-from toddles.web import View
+from toodles.web import View
 
 
 def test_base_url(app):

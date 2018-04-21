@@ -1,14 +1,16 @@
 import inspect
 from bottle import Bottle, request
-from .negotiation import ContentNegotiationPlugin
+from .content_negotiation import ContentNegotiationPlugin
+from .views import View
 
-__all__ = ['Toodles']
+__all__ = ['Application']
+
 
 ##############################################################################
 # BottleCap application
 ##############################################################################
 
-class Toodles(Bottle):
+class Application(Bottle):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

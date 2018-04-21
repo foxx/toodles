@@ -1,3 +1,4 @@
+import peewee
 import playhouse
 
 __all__ = ['ModelManager', 'DatabaseManager']
@@ -35,12 +36,19 @@ class ModelManager(list):
         model_cls._meta.database_manager = self.dbm
         return model_cls
 
+    def deregister_all(self):
+        for key, value in self.items():
+            value._meta.database_manager = None
+        self.clear()
+
 
 ####################################################################
 # DB manager
 ####################################################################
 
-# XXX: improve KeyError message
+
+# TODO: improve KeyError message
+# TODO: Add support for db routing?
 class DatabaseManager(dict):
     """Database manager"""
 
@@ -74,5 +82,4 @@ class DatabaseManager(dict):
             self[name] = db
         else:
             raise ValueError("unexpected 'db' type")
-
 
