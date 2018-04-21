@@ -11,7 +11,7 @@ from toodles.web import View
 # Renderers
 ###########################################################
 
-
+@pytest.mark.skip
 def test_form_parser(app):
     """
     Unit test for form parser
@@ -43,6 +43,7 @@ def test_form_parser(app):
 # JSON parser view
 #############################################################
 
+@pytest.mark.skip
 def test_json_parser_invalid_body(app):
     """Unit test for json parser with invalid request body"""
 
@@ -74,6 +75,7 @@ def test_json_parser_invalid_body(app):
         'status_code': '400 Invalid Body'}
 
 
+@pytest.mark.skip
 def test_json_parser_ok(app):
     """Unit test for json parser with good request body"""
 

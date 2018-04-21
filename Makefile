@@ -34,6 +34,7 @@ dtest: dbuild
 		$(DOCKER_TAG) \
 		make test
 
+
 .PHONY: test
 test:
 	pipenv run python3 -m pytest

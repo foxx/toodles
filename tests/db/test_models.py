@@ -69,6 +69,7 @@ def test_get_or_none(dbm):
     assert o1 == o2
 
 
+@pytest.mark.skip
 def test_pk_ref(dbm):
     data = dict(id=99999, name='hello')
     o1 = Person.create(id=99999, name='hello')
