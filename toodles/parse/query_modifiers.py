@@ -39,13 +39,13 @@ class QueryModifier(object):
             raise Exception(errmsg)
 
         parsed = [self.name]
-        for value in stripped_values.split(','):
-            if not value:
+        for val in stripped_values:
+            if not val:
                 raise Exception('Malformed query value: %s' % stripped_values)
 
             if self.coerce_values:
                 # Attempt to convert value to numeric
-                coercd_val = self.coerce_value(value)
+                coercd_val = self.coerce_value(val)
                 crd_val_type = type(coercd_val)
 
                 # Make sure resulting value type is allowed
