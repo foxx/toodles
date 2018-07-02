@@ -1,6 +1,6 @@
 import inspect
 from bottle import Bottle, request
-from .content_negotiation import ContentNegotiationPlugin
+from .content_negotiation import ContentNegotiation
 from .views import View
 
 __all__ = ['Application']

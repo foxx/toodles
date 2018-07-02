@@ -17,6 +17,7 @@ def test_all():
 
     items = [
         "filter.age=between:1,20",
+        "filter.name=between:emily,jessica",
         "filter.age=12&filter.age.lala=13&lalala=2",
         "filter.age=in:20,21,23",
         "filter.age=gt:20",
@@ -40,11 +41,30 @@ def convert(qs, namespace:str='filter', sep='.', modsep=':'):
     TODO: values should be casted based on hinting? e.g. try to cast to Decimal, int and string
     """
 
+
 class Filters:
     def __init__(self, field_ns:str='filter', field_sep='.', modsep=':'):
         self.field_ns = field_ns
         self.field_sep = field_sep
         self.modsep = modsep
+
+    def parse_value(self, value):
+        modifiers = ['between', 'in', 'gt', 'gte', 'lt', 'lte', 'contains', 'exact']
+        mod, nvalue = v.split(':', 1)
+        if mod in modifiers:
+
+        if mod == 'between':
+            self.parse_value_between
+
+    def parse_value_between(self, value):
+        if value.count(',') != 1: raise ValueError()
+        lower, upper = pad(value.split(','), 2)
+        return lower, upper
+
+    def parse_value_in(self, value):
+
+
+
 
     def convert(self):
         parts = parse_qsl(qs)

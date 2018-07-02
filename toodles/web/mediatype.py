@@ -11,7 +11,7 @@ __all__ = ['ParseError', 'MediaType', 'MediaTypeList', 'cast_media_type',
            'cast_media_type_list']
 
 
-class ParseError(Exception):
+class ParseError(ValueError):
     """Unable to parse media type"""
 
 
